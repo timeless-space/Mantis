@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol CropWorkbenchViewProtocol: UIScrollView {
+public protocol CropWorkbenchViewProtocol: UIScrollView {
     var imageContainer: ImageContainerProtocol? { get set }
     var touchesBegan: () -> Void { get set }
     var touchesCancelled: () -> Void { get set }

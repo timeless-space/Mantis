@@ -30,21 +30,21 @@ class CropMaskVisualEffectView: UIVisualEffectView, CropMaskProtocol {
     }
         
     func setMask(cropRatio: CGFloat) {
-        let layer = createOverLayer(opacity: 0.98, cropRatio: cropRatio)
-        
+        let layer = createOverLayer(opacity: 1, cropRatio: cropRatio)
+
         let maskView = UIView(frame: self.bounds)
         maskView.clipsToBounds = true
         maskView.layer.addSublayer(layer)
-        
+
         innerLayer = layer
-        
+
         self.mask = maskView
     }
     
     static func getEffect(byType type: CropMaskVisualEffectType) -> (UIVisualEffect?, UIColor) {
         switch type {
         case .blurDark:
-            return (UIBlurEffect(style: .dark), .clear)
+            return (UIBlurEffect(style: .systemUltraThinMaterialDark), .clear)
         case .dark:
             return (nil, UIColor.black.withAlphaComponent(0.75))
         case .light:

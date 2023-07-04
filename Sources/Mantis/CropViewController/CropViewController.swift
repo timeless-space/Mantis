@@ -28,7 +28,7 @@ open class CropViewController: UIViewController {
     public weak var delegate: CropViewControllerDelegate?
     public var config = Mantis.Config()
     
-    var cropView: CropViewProtocol! {
+    public var cropView: CropViewProtocol! {
         didSet {
             if config.cropToolbarConfig.toolbarButtonOptions.contains(.autoAdjust) {
                 imageAdjustHelper = ImageAutoAdjustHelper(image: cropView.image)
@@ -37,7 +37,6 @@ open class CropViewController: UIViewController {
     }
     var cropToolbar: CropToolbarProtocol!
     private var imageAdjustHelper: ImageAutoAdjustHelper?
-    
     private var ratioPresenter: RatioPresenter?
     private var ratioSelector: RatioSelector?
     private var stackView: UIStackView?
@@ -129,7 +128,7 @@ open class CropViewController: UIViewController {
         modalPresentationStyle = .fullScreen
         navigationController?.modalPresentationStyle = .fullScreen
 #endif
-        view.backgroundColor = .black
+        view.backgroundColor = .clear
         
         cropView.initialSetup(delegate: self, presetFixedRatioType: config.presetFixedRatioType)
         createCropToolbar()
@@ -196,7 +195,7 @@ open class CropViewController: UIViewController {
         }
     }    
     
-    private func setFixedRatio(_ ratio: Double, zoom: Bool = true) {
+    public func setFixedRatio(_ ratio: Double, zoom: Bool = true) {
         cropToolbar.handleFixedRatioSetted(ratio: ratio)
         cropView.setFixedRatio(ratio, zoom: zoom, presetFixedRatioType: config.presetFixedRatioType)
     }
@@ -336,7 +335,7 @@ extension CropViewController {
         stackView?.translatesAutoresizingMaskIntoConstraints = false
         cropToolbar.translatesAutoresizingMaskIntoConstraints = false
         
-        stackView?.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        stackView?.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         stackView?.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         stackView?.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
         stackView?.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
@@ -377,23 +376,23 @@ extension CropViewController {
 }
 
 extension CropViewController: CropViewDelegate {    
-    func cropViewDidBecomeResettable(_ cropView: CropViewProtocol) {
+    public func cropViewDidBecomeResettable(_ cropView: CropViewProtocol) {
         cropToolbar.handleCropViewDidBecomeResettable()
         delegate?.cropViewControllerDidImageTransformed(self)
         delegate?.cropViewController(self, didBecomeResettable: true)
     }
     
-    func cropViewDidBecomeUnResettable(_ cropView: CropViewProtocol) {
+    public func cropViewDidBecomeUnResettable(_ cropView: CropViewProtocol) {
         cropToolbar.handleCropViewDidBecomeUnResettable()
         delegate?.cropViewController(self, didBecomeResettable: false)
     }
     
-    func cropViewDidBeginResize(_ cropView: CropViewProtocol) {
+    public func cropViewDidBeginResize(_ cropView: CropViewProtocol) {
         cropToolbar.handleImageNotAutoAdjustable()
         delegate?.cropViewControllerDidBeginResize(self)
     }
     
-    func cropViewDidEndResize(_ cropView: CropViewProtocol) {
+    public func cropViewDidEndResize(_ cropView: CropViewProtocol) {
         delegate?.cropViewControllerDidEndResize(self,
                                                  original: cropView.image,
                                                  cropInfo: cropView.getCropInfo())

@@ -8,12 +8,12 @@
 
 import UIKit
 
-final class CropWorkbenchView: UIScrollView {
-    var imageContainer: ImageContainerProtocol?
+public final class CropWorkbenchView: UIScrollView {
+    public var imageContainer: ImageContainerProtocol?
     
-    var touchesBegan = {}
-    var touchesCancelled = {}
-    var touchesEnded = {}
+    public var touchesBegan = {}
+    public var touchesCancelled = {}
+    public var touchesEnded = {}
     
     private var initialMinimumZoomScale: CGFloat = 1.0
     
@@ -49,17 +49,17 @@ final class CropWorkbenchView: UIScrollView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchesBegan()
         super.touchesBegan(touches, with: event)
     }
     
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchesCancelled()
         super.touchesBegan(touches, with: event)
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchesEnded()
         super.touchesBegan(touches, with: event)
     }
@@ -78,7 +78,7 @@ final class CropWorkbenchView: UIScrollView {
 }
 
 extension CropWorkbenchView: CropWorkbenchViewProtocol {
-    func checkContentOffset() {
+    public func checkContentOffset() {
         contentOffset.x = max(contentOffset.x, 0)
         contentOffset.y = max(contentOffset.y, 0)
         
@@ -91,23 +91,28 @@ extension CropWorkbenchView: CropWorkbenchViewProtocol {
         }
     }
     
-    func updateMinZoomScale() {
+    public func updateMinZoomScale() {
         minimumZoomScale = getBoundZoomScale()
     }
+
+    public func zoomOut() {
+        minimumZoomScale = 1
+        setZoomScale(1, animated: true)
+    }
     
-    func zoomScaleToBound(animated: Bool = false) {
+    public func zoomScaleToBound(animated: Bool = false) {
         let scale = getBoundZoomScale()
         
         minimumZoomScale = scale
         setZoomScale(scale, animated: animated)
     }
     
-    func shouldScale() -> Bool {
+    public func shouldScale() -> Bool {
         return contentSize.width / bounds.width <= 1.0
             || contentSize.height / bounds.height <= 1.0
     }
     
-    func updateLayout(byNewSize newSize: CGSize) {
+    public func updateLayout(byNewSize newSize: CGSize) {
         let oldScrollViewcenter = center
         let contentOffsetCenter = CGPoint(x: (contentOffset.x + bounds.width / 2),
                                           y: (contentOffset.y + bounds.height / 2))
@@ -120,7 +125,7 @@ extension CropWorkbenchView: CropWorkbenchViewProtocol {
         center = oldScrollViewcenter
     }
     
-    func reset(by rect: CGRect) {
+    public func reset(by rect: CGRect) {
         // Reseting zoom need to be before resetting frame and contentsize
         minimumZoomScale = max(1.0, initialMinimumZoomScale)
         zoomScale = minimumZoomScale
@@ -133,7 +138,7 @@ extension CropWorkbenchView: CropWorkbenchViewProtocol {
         contentSize = newRect.size
     }
     
-    func resetImageContent(by cropBoxFrame: CGRect) {
+    public func resetImageContent(by cropBoxFrame: CGRect) {
         transform = .identity
         reset(by: cropBoxFrame)
         

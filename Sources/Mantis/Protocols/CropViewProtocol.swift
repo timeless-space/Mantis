@@ -13,10 +13,11 @@ public protocol ActivityIndicatorProtocol: UIView {
     func stopAnimating()
 }
 
-protocol CropViewProtocol: UIView {
+public protocol CropViewProtocol: UIView {
     var image: UIImage { get set }
     var aspectRatioLockEnabled: Bool { get set }
     var delegate: CropViewDelegate? { get set }
+    var cropWorkbenchView: CropWorkbenchViewProtocol { get set }
     
     func initialSetup(delegate: CropViewDelegate, presetFixedRatioType: PresetFixedRatioType)
     func setViewDefaultProperties()

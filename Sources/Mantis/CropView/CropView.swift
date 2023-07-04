@@ -24,7 +24,7 @@
 
 import UIKit
 
-protocol CropViewDelegate: AnyObject {
+public protocol CropViewDelegate: AnyObject {
     func cropViewDidBecomeResettable(_ cropView: CropViewProtocol)
     func cropViewDidBecomeUnResettable(_ cropView: CropViewProtocol)
     func cropViewDidBeginResize(_ cropView: CropViewProtocol)
@@ -47,7 +47,7 @@ class CropView: UIView {
     // Referred to in extension
     let imageContainer: ImageContainerProtocol
     let cropAuxiliaryIndicatorView: CropAuxiliaryIndicatorViewProtocol
-    let cropWorkbenchView: CropWorkbenchViewProtocol
+    var cropWorkbenchView: CropWorkbenchViewProtocol
     let cropMaskViewManager: CropMaskViewManagerProtocol
     
     var rotationControlView: RotationControlViewProtocol? {
@@ -798,7 +798,7 @@ extension CropView: CropViewProtocol {
         return viewModel.getRatioType(byImageIsOriginalHorizontal: isHorizontal)
     }
     
-    func getImageHorizontalToVerticalRatio() -> Double {
+    public func getImageHorizontalToVerticalRatio() -> Double {
         if viewModel.rotationType.isRotateByMultiple180 {
             return Double(image.horizontalToVerticalRatio())
         } else {
@@ -859,7 +859,7 @@ extension CropView: CropViewProtocol {
         }
     }
     
-    func rotateBy90(withRotateType rotateType: RotateBy90DegreeType, completion: @escaping () -> Void = {}) {
+    public func rotateBy90(withRotateType rotateType: RotateBy90DegreeType, completion: @escaping () -> Void = {}) {
         viewModel.setDegree90RotatingStatus()
         
         var newRotateType = rotateType

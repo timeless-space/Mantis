@@ -51,7 +51,7 @@ public typealias CropInfo = (
     cropRegion: CropRegion
 )
 
-typealias CropOutput = (
+public typealias CropOutput = (
     croppedImage: UIImage?,
     transformation: Transformation,
     cropInfo: CropInfo
